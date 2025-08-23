@@ -1,3 +1,4 @@
+import { AgentsListHeader } from "@/components/agents/AgentsListHeader";
 import {
   AgentsOverview,
   AgentsOverviewError,
@@ -22,8 +23,8 @@ const Page = async () => {
   void queryClient.prefetchQuery(trpc.agents.getMany.queryOptions());
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold">Agents Page</h1>
+    <section className="p-4">
+      <AgentsListHeader />
       <div className="flex-1">
         <HydrationBoundary state={dehydrate(queryClient)}>
           <Suspense fallback={<AgentsOverviewLoading />}>
@@ -33,7 +34,7 @@ const Page = async () => {
           </Suspense>
         </HydrationBoundary>
       </div>
-    </div>
+    </section>
   );
 };
 

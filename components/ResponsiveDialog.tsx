@@ -29,7 +29,7 @@ export const ResponsiveDialog = ({
   onOpenChange,
   children,
 }: ResponsiveDialogProps) => {
-  const isMobile = useIsMobile();
+  const isMobile = useIsMobile(600);
 
   if (isMobile) {
     return (
@@ -39,7 +39,7 @@ export const ResponsiveDialog = ({
             <DrawerTitle>{title}</DrawerTitle>
             <DrawerDescription>{description}</DrawerDescription>
           </DrawerHeader>
-          {children}
+          <div className="p-4">{children}</div>
         </DrawerContent>
       </Drawer>
     );
@@ -51,7 +51,7 @@ export const ResponsiveDialog = ({
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription>{description}</DialogDescription>
-          <div className="p-4">{children}</div>
+          {children}
         </DialogHeader>
       </DialogContent>
     </Dialog>
