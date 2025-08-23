@@ -4,14 +4,26 @@ import { useTRPC } from "@/trpc/client";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { ErrorUI } from "../ErrorUI";
 import { Skeleton } from "../ui/skeleton";
+import { DataTable } from "./DataTable";
+import { columns } from "./Columns";
+import { EmptyUI } from "../EmptyUI";
 
 export const AgentsOverview = () => {
   const trpc = useTRPC();
   const { data } = useSuspenseQuery(trpc.agents.getMany.queryOptions());
 
   return (
-    <div>
-      <p>{JSON.stringify(data, null, 2)}</p>
+    <div className="flex-1 pb-4  flex flex-col gap-y-4">
+      {/* <p>{JSON.stringify(data, null, 2)}</p> */}
+      <DataTable
+        data={data}
+        columns={columns}
+        onRowClick={(row) => console.log(row)}
+      />
+
+      {data.length === 0 && (
+        <EmptyUI title="No agent found" description="Try adding a new agent." />
+      )}
     </div>
   );
 };
