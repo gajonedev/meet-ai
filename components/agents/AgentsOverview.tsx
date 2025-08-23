@@ -2,10 +2,9 @@
 
 import { useTRPC } from "@/trpc/client";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
-import { AlertCircle } from "lucide-react";
 import { ErrorUI } from "../ErrorUI";
 import { Skeleton } from "../ui/skeleton";
+import { ResponsiveDialog } from "../ResponsiveDialog";
 
 export const AgentsOverview = () => {
   const trpc = useTRPC();
