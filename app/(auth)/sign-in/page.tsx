@@ -1,4 +1,4 @@
-import LoginForm from "@/components/SignInForm";
+import LoginForm from "@/components/auth/SignInForm";
 import LoginFormSkeleton from "@/components/sekeletons/LoginFormSkeleton";
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";

@@ -16,7 +16,7 @@ import Link from "next/link";
 import { useSession } from "@/lib/auth-client";
 import { Skeleton } from "../ui/skeleton";
 import { Alert, AlertDescription } from "../ui/alert";
-import { GeneratedAvatar } from "../generated-avatar";
+import { GeneratedAvatar } from "./GeneratedAvatar";
 import { HiCash } from "react-icons/hi";
 import { cn, getInitials } from "@/lib/utils";
 
