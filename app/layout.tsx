@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
-import { Lexend, Noto_Serif, Outfit, Poppins } from "next/font/google";
+import { Noto_Serif, Poppins } from "next/font/google";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { Toaster } from "@/components/ui/sonner";
 
 import "./globals.css";
 import BreakpointIndicator from "@/components/BreakpointIndicator";
+import { TRPCReactProvider } from "@/trpc/client";
 
 const lexend = Poppins({
   subsets: ["latin"],
@@ -33,11 +34,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${lexend.variable} ${notoSerif.variable} antialiased font-text`}
-      >
-        {/* <QueryProvider> */}
+    <TRPCReactProvider>
+      <html lang="en" suppressHydrationWarning>
+        <body
+          className={`${lexend.variable} ${notoSerif.variable} antialiased font-text`}
+        >
           <ThemeProvider
             attribute="class"
             defaultTheme="system"
@@ -47,15 +48,15 @@ export default function RootLayout({
             {children}
             {/* <BreakpointIndicator /> */}
           </ThemeProvider>
-        {/* </QueryProvider> */}
-        <Toaster
-          position="top-right"
-          richColors
-          style={{
-            fontFamily: "var(--font-text)",
-          }}
-        />
-      </body>
-    </html>
+          <Toaster
+            position="top-right"
+            richColors
+            style={{
+              fontFamily: "var(--font-text)",
+            }}
+          />
+        </body>
+      </html>
+    </TRPCReactProvider>
   );
 }
