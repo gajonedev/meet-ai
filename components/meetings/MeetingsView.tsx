@@ -1,9 +1,13 @@
 "use client";
 
-import { useTRPC } from "@/trpc/client";
 import { useSuspenseQuery } from "@tanstack/react-query";
+
+import { useTRPC } from "@/trpc/client";
 import { ErrorUI } from "../ErrorUI";
 import { LoadingUI } from "../LoadingUI";
+import { DataTable } from "../DataTable";
+import { columns } from "./Columns";
+import { EmptyUI } from "../EmptyUI";
 
 export const MeetingsView = () => {
   const trpc = useTRPC();
@@ -11,7 +15,10 @@ export const MeetingsView = () => {
 
   return (
     <div>
-      <pre>{JSON.stringify(data, null, 2)}</pre>
+      <DataTable data={data.items} columns={columns} onRowClick={() => {}} />
+      {data.items.length === 0 && (
+        <EmptyUI title="No meeting found" description="Try adding to create your first meeting." />
+      )}
     </div>
   );
 };

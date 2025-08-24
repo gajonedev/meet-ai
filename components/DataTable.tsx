@@ -7,12 +7,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableRow,
-} from "@/components/ui/table";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
 // Props for the data table component
 interface DataTableProps<TData, TValue> {
@@ -36,9 +31,9 @@ export function DataTable<TData, TValue>({
   return (
     <div className="overflow-hidden rounded-xl border bg-card">
       <Table>
-        {/* <TableHeader>
+        <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id}>
+            <TableRow key={headerGroup.id} className="bg-muted hover:bg-muted">
               {headerGroup.headers.map((header) => {
                 return (
                   <TableHead key={header.id}>
@@ -53,7 +48,7 @@ export function DataTable<TData, TValue>({
               })}
             </TableRow>
           ))}
-        </TableHeader> */}
+        </TableHeader>
         <TableBody>
           {table.getRowModel().rows?.length ? (
             table.getRowModel().rows.map((row) => (
@@ -72,7 +67,10 @@ export function DataTable<TData, TValue>({
             ))
           ) : (
             <TableRow>
-              <TableCell colSpan={columns.length} className="h-19 text-center text-muted-foreground">
+              <TableCell
+                colSpan={columns.length}
+                className="h-19 text-center text-muted-foreground"
+              >
                 No results.
               </TableCell>
             </TableRow>

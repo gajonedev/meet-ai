@@ -10,7 +10,7 @@ import {
   AgentsOverview,
   AgentsOverviewError,
   AgentsOverviewLoading,
-} from "@/components/agents/AgentsOverview";
+} from "@/components/agents/AgentsView";
 import { auth } from "@/lib/auth";
 import { getQueryClient, trpc } from "@/trpc/server";
 import { loadSearchParams } from "@/server/agents/params";

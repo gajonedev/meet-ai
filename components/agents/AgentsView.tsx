@@ -5,8 +5,7 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 
 import { useTRPC } from "@/trpc/client";
 import { ErrorUI } from "../ErrorUI";
-import { Skeleton } from "../ui/skeleton";
-import { DataTable } from "./DataTable";
+import { DataTable } from "../DataTable";
 import { columns } from "./Columns";
 import { EmptyUI } from "../EmptyUI";
 import { useAgentsFilters } from "@/hooks/useAgentsFilters";
