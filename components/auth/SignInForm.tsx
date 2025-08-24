@@ -280,7 +280,7 @@ const LoginForm = () => {
             {form.formState.isSubmitting || isLoading ? (
               <>
                 <Loader className="h-4 w-4 animate-spin" />
-                Connexion en cours...
+                Connexion en cours
               </>
             ) : (
               "Se connecter"

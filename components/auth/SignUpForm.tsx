@@ -313,7 +313,7 @@ const RegisterForm = () => {
             {form.formState.isSubmitting || isLoading ? (
               <>
                 <Loader className="mr-2 h-4 w-4 animate-spin" />
-                Inscription en cours...
+                Inscription en cours
               </>
             ) : (
               "Créer mon compte"

@@ -24,7 +24,7 @@ export const auth = betterAuth({
     google: {
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-    }
+    },
   },
 
   // Configure session settings
@@ -32,6 +32,8 @@ export const auth = betterAuth({
     cookieCache: {
       enabled: true,
       maxAge: 5 * 60,
-    }
-  }
+    },
+  },
+
+  trustedOrigins: ["http://10.88.224.168:3000"],
 });
