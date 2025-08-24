@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { Noto_Serif, Poppins } from "next/font/google";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { Toaster } from "@/components/ui/sonner";
+import { NuqsAdapter } from "nuqs/adapters/next";
 
 import "./globals.css";
-import BreakpointIndicator from "@/components/BreakpointIndicator";
 import { TRPCReactProvider } from "@/trpc/client";
 
 const lexend = Poppins({
@@ -34,29 +34,31 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <TRPCReactProvider>
-      <html lang="en" suppressHydrationWarning>
-        <body
-          className={`${lexend.variable} ${notoSerif.variable} antialiased font-text`}
-        >
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
+    <NuqsAdapter>
+      <TRPCReactProvider>
+        <html lang="en" suppressHydrationWarning>
+          <body
+            className={`${lexend.variable} ${notoSerif.variable} antialiased font-text`}
           >
-            {children}
-            {/* <BreakpointIndicator /> */}
-          </ThemeProvider>
-          <Toaster
-            position="top-right"
-            richColors
-            style={{
-              fontFamily: "var(--font-text)",
-            }}
-          />
-        </body>
-      </html>
-    </TRPCReactProvider>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+            >
+              {children}
+              {/* <BreakpointIndicator /> */}
+            </ThemeProvider>
+            <Toaster
+              position="top-right"
+              richColors
+              style={{
+                fontFamily: "var(--font-text)",
+              }}
+            />
+          </body>
+        </html>
+      </TRPCReactProvider>
+    </NuqsAdapter>
   );
 }

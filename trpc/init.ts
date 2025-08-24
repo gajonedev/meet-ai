@@ -26,8 +26,6 @@ export const createTRPCRouter = t.router;
 export const createCallerFactory = t.createCallerFactory;
 export const baseProcedure = t.procedure;
 export const protectedProcedure = baseProcedure.use(async ({ ctx, next }) => {
-  console.log("Protected procedure called: ", ctx, next);
-
   // Get the user session
   const session = await auth.api.getSession({
     headers: await headers(),

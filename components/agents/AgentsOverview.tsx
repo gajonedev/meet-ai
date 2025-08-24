@@ -7,21 +7,34 @@ import { Skeleton } from "../ui/skeleton";
 import { DataTable } from "./DataTable";
 import { columns } from "./Columns";
 import { EmptyUI } from "../EmptyUI";
+import { useAgentsFilters } from "@/hooks/use-agents-filters";
+import { DataPagination } from "./DataPagination";
 
 export const AgentsOverview = () => {
+  const [filters, setFilters] = useAgentsFilters();
+
   const trpc = useTRPC();
-  const { data } = useSuspenseQuery(trpc.agents.getMany.queryOptions());
+  const { data } = useSuspenseQuery(
+    trpc.agents.getMany.queryOptions({
+      ...filters,
+    })
+  );
 
   return (
     <div className="flex-1 pb-4  flex flex-col gap-y-4">
-      {/* <p>{JSON.stringify(data, null, 2)}</p> */}
       <DataTable
-        data={data}
+        data={data.items}
         columns={columns}
         onRowClick={(row) => console.log(row)}
       />
 
-      {data.length === 0 && (
+      <DataPagination
+        page={filters.page}
+        totalPages={data.totalPages}
+        onPageChange={(page) => setFilters({ page })}
+      />
+
+      {data.items.length === 0 && (
         <EmptyUI title="No agent found" description="Try adding a new agent." />
       )}
     </div>
