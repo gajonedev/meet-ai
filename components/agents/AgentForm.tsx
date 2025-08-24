@@ -4,7 +4,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
-import { Loader, User2, FileText, AlertCircle } from "lucide-react";
+import { Loader, AlertCircle } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import z from "zod";
@@ -12,7 +12,6 @@ import z from "zod";
 import { AgentGetOne } from "@/server/types";
 import { useTRPC } from "@/trpc/client";
 import { agentsInsertSchema } from "@/lib/schemas";
-import { cn } from "@/lib/utils";
 import {
   Form,
   FormControl,
@@ -53,7 +52,9 @@ export const AgentForm = ({
         toast.success("Agent created successfully");
 
         // Invalidate the agents query to refetch the list of agents
-        await queryClient.invalidateQueries(trpc.agents.getMany.queryOptions());
+        await queryClient.invalidateQueries(
+          trpc.agents.getMany.queryOptions({})
+        );
 
         // Invalidate the specific agent query if editing an existing agent
         if (initialValues?.id) {
@@ -94,6 +95,85 @@ export const AgentForm = ({
       createAgent.mutate(values);
     }
   };
+
+  // const seedDb = async () => {
+  //   const d = [
+  //     { name: "Nexa", description: "Analyzes complex data in real time." },
+  //     {
+  //       name: "Orion",
+  //       description: "Optimizes decision-making with predictive intelligence.",
+  //     },
+  //     { name: "Luma", description: "Brings clarity to project management." },
+  //     {
+  //       name: "Vega",
+  //       description: "Monitors and protects systems against threats.",
+  //     },
+  //     {
+  //       name: "Astra",
+  //       description: "Facilitates the exploration of large datasets.",
+  //     },
+  //     { name: "Echo", description: "Interacts naturally in human language." },
+  //     {
+  //       name: "Kairos",
+  //       description: "Helps make the right decisions at the right time.",
+  //     },
+  //     {
+  //       name: "Iris",
+  //       description: "Provides advanced image analysis and recognition.",
+  //     },
+  //     {
+  //       name: "Zephyr",
+  //       description: "Optimizes performance with speed and fluidity.",
+  //     },
+  //     {
+  //       name: "Nova",
+  //       description: "Turns information into clear and useful insights.",
+  //     },
+  //     {
+  //       name: "Atlas",
+  //       description: "Manages and structures large information networks.",
+  //     },
+  //     {
+  //       name: "Lyra",
+  //       description: "Enhances creativity with intelligent suggestions.",
+  //     },
+  //     { name: "Aion", description: "Predicts future trends from past data." },
+  //     {
+  //       name: "Cortex",
+  //       description: "Acts as a digital brain for your operations.",
+  //     },
+  //     {
+  //       name: "Artemis",
+  //       description: "Guides research and provides precise recommendations.",
+  //     },
+  //     { name: "Helios", description: "Optimizes energy consumption with AI." },
+  //     {
+  //       name: "Selene",
+  //       description: "Offers empathetic and personalized assistance.",
+  //     },
+  //     {
+  //       name: "Nyx",
+  //       description: "Shields systems in the shadows with cybersecurity.",
+  //     },
+  //     {
+  //       name: "Eon",
+  //       description: "Continuously learns and adapts to your needs.",
+  //     },
+  //     {
+  //       name: "Solara",
+  //       description: "Illuminates strategic decisions with clear analytics.",
+  //     },
+  //   ];
+
+  //   await Promise.all(
+  //     d.map(async (agent: { name: string; description: string }) => {
+  //       await createAgent.mutateAsync({
+  //         name: agent.name,
+  //         instructions: agent.description,
+  //       });
+  //     })
+  //   );
+  // };
 
   return (
     <div className="w-full space-y-6">
