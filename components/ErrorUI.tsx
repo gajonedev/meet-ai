@@ -9,7 +9,7 @@ export const ErrorUI = ({
 }) => {
   return (
     <div className="w-full mt-[8rem] items-center justify-center flex">
-      <div className="flex flex-col items-center justify-center p-4 max-w-sm border-destructive border rounded-lg bg-destructive/20">
+      <div className="flex flex-col items-center justify-center p-6 max-w-sm border-destructive border rounded-xl bg-destructive/20">
         <AlertCircle className="h-20 w-20 text-destructive" />
         <div className="flex flex-col items-center justify-center mt-4 gap-2">
           <h3 className="text-xl font-semibold text-destructive">{title}</h3>

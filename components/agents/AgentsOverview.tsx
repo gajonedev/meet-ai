@@ -1,7 +1,9 @@
 "use client";
 
-import { useTRPC } from "@/trpc/client";
+import { useRouter } from "next/navigation";
 import { useSuspenseQuery } from "@tanstack/react-query";
+
+import { useTRPC } from "@/trpc/client";
 import { ErrorUI } from "../ErrorUI";
 import { Skeleton } from "../ui/skeleton";
 import { DataTable } from "./DataTable";
@@ -9,8 +11,10 @@ import { columns } from "./Columns";
 import { EmptyUI } from "../EmptyUI";
 import { useAgentsFilters } from "@/hooks/use-agents-filters";
 import { DataPagination } from "./DataPagination";
+import { LoadingUI } from "../LoadingUI";
 
 export const AgentsOverview = () => {
+  const router = useRouter();
   const [filters, setFilters] = useAgentsFilters();
 
   const trpc = useTRPC();
@@ -25,7 +29,7 @@ export const AgentsOverview = () => {
       <DataTable
         data={data.items}
         columns={columns}
-        onRowClick={(row) => console.log(row)}
+        onRowClick={(row) => router.push(`/agents/${row.id}`)}
       />
 
       <DataPagination
@@ -44,32 +48,17 @@ export const AgentsOverview = () => {
 export const AgentsOverviewError = () => {
   return (
     <ErrorUI
-      title="Une erreur est survenue"
-      description="Impossible de charger les agents. Veuillez vérifier votre connexion ou réessayer plus tard."
+      title="An error occurred"
+      description="Failed to load agents. Please check your connection or try again later."
     />
   );
 };
 
 export const AgentsOverviewLoading = () => {
   return (
-    <div className="w-full overflow-x-auto">
-      <table className="min-w-full divide-y divide-gray-200">
-        <tbody>
-          {[...Array(5)].map((_, i) => (
-            <tr key={i}>
-              <td className="px-4 py-3">
-                <Skeleton className="h-4 w-3/4" />
-              </td>
-              <td className="px-4 py-3">
-                <Skeleton className="h-4 w-1/2" />
-              </td>
-              <td className="px-4 py-3">
-                <Skeleton className="h-4 w-1/3" />
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+    <LoadingUI
+      title="Loading agents"
+      description="Please wait while we load the agents."
+    />
   );
 };
