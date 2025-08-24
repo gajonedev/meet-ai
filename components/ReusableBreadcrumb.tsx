@@ -32,21 +32,6 @@ export function ReusableBreadcrumb({
             {index !== items.length - 1 ? <BreadcrumbSeparator /> : null}
           </Fragment>
         ))}
-        {/* <BreadcrumbItem>
-          <BreadcrumbLink asChild>
-            <Link href="/">Home</Link>
-          </BreadcrumbLink>
-        </BreadcrumbItem>
-        <BreadcrumbSeparator />
-        <BreadcrumbItem>
-          <BreadcrumbLink asChild>
-            <Link href="/components">Components</Link>
-          </BreadcrumbLink>
-        </BreadcrumbItem>
-        <BreadcrumbSeparator />
-        <BreadcrumbItem>
-          <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
-        </BreadcrumbItem> */}
       </BreadcrumbList>
     </Breadcrumb>
   );

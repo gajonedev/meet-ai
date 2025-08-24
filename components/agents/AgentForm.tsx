@@ -56,6 +56,31 @@ export const AgentForm = ({
           trpc.agents.getMany.queryOptions({})
         );
 
+        onSuccess?.();
+      },
+      onError: (error) => {
+        console.error("Error creating agent:", error);
+        setError("An error occurred while creating the agent.");
+        toast.error("Error creating agent");
+        form.reset();
+
+        // TODO: Check if error code is "FORBIDDEN", then redirect to "/upgrade"
+      },
+    })
+  );
+
+  // Update agent mutation
+  const updateAgent = useMutation(
+    trpc.agents.update.mutationOptions({
+      onSuccess: async ({ name }) => {
+        form.reset();
+        toast.success('Agent "' + name + '" updated successfully');
+
+        // Invalidate the agents query to refetch the list of agents
+        await queryClient.invalidateQueries(
+          trpc.agents.getMany.queryOptions({})
+        );
+
         // Invalidate the specific agent query if editing an existing agent
         if (initialValues?.id) {
           await queryClient.invalidateQueries(
@@ -63,12 +88,14 @@ export const AgentForm = ({
           );
         }
 
+        // TODO: Invalidate free tier usage
+
         onSuccess?.();
       },
       onError: (error) => {
-        console.error("Error creating agent:", error);
-        setError("An error occurred while creating the agent.");
-        toast.error("Error creating agent");
+        console.error("Error updating agent:", error);
+        setError("An error occurred while updating the agent.");
+        toast.error("Error updating agent");
         form.reset();
 
         // TODO: Check if error code is "FORBIDDEN", then redirect to "/upgrade"
@@ -85,95 +112,21 @@ export const AgentForm = ({
     },
   });
 
+  // Determine if we are editing an existing agent
   const isEdit = !!initialValues?.id;
-  const isPending = form.formState.isSubmitting || createAgent.isPending;
+  const isPending =
+    form.formState.isSubmitting ||
+    createAgent.isPending ||
+    updateAgent.isPending;
 
+  // Determine if we are creating or updating and call the appropriate mutation
   const onSubmit = async (values: z.infer<typeof agentsInsertSchema>) => {
     if (isEdit) {
-      console.log("TODO: updateAgent");
+      updateAgent.mutate({ ...values, id: initialValues.id });
     } else {
       createAgent.mutate(values);
     }
   };
-
-  // const seedDb = async () => {
-  //   const d = [
-  //     { name: "Nexa", description: "Analyzes complex data in real time." },
-  //     {
-  //       name: "Orion",
-  //       description: "Optimizes decision-making with predictive intelligence.",
-  //     },
-  //     { name: "Luma", description: "Brings clarity to project management." },
-  //     {
-  //       name: "Vega",
-  //       description: "Monitors and protects systems against threats.",
-  //     },
-  //     {
-  //       name: "Astra",
-  //       description: "Facilitates the exploration of large datasets.",
-  //     },
-  //     { name: "Echo", description: "Interacts naturally in human language." },
-  //     {
-  //       name: "Kairos",
-  //       description: "Helps make the right decisions at the right time.",
-  //     },
-  //     {
-  //       name: "Iris",
-  //       description: "Provides advanced image analysis and recognition.",
-  //     },
-  //     {
-  //       name: "Zephyr",
-  //       description: "Optimizes performance with speed and fluidity.",
-  //     },
-  //     {
-  //       name: "Nova",
-  //       description: "Turns information into clear and useful insights.",
-  //     },
-  //     {
-  //       name: "Atlas",
-  //       description: "Manages and structures large information networks.",
-  //     },
-  //     {
-  //       name: "Lyra",
-  //       description: "Enhances creativity with intelligent suggestions.",
-  //     },
-  //     { name: "Aion", description: "Predicts future trends from past data." },
-  //     {
-  //       name: "Cortex",
-  //       description: "Acts as a digital brain for your operations.",
-  //     },
-  //     {
-  //       name: "Artemis",
-  //       description: "Guides research and provides precise recommendations.",
-  //     },
-  //     { name: "Helios", description: "Optimizes energy consumption with AI." },
-  //     {
-  //       name: "Selene",
-  //       description: "Offers empathetic and personalized assistance.",
-  //     },
-  //     {
-  //       name: "Nyx",
-  //       description: "Shields systems in the shadows with cybersecurity.",
-  //     },
-  //     {
-  //       name: "Eon",
-  //       description: "Continuously learns and adapts to your needs.",
-  //     },
-  //     {
-  //       name: "Solara",
-  //       description: "Illuminates strategic decisions with clear analytics.",
-  //     },
-  //   ];
-
-  //   await Promise.all(
-  //     d.map(async (agent: { name: string; description: string }) => {
-  //       await createAgent.mutateAsync({
-  //         name: agent.name,
-  //         instructions: agent.description,
-  //       });
-  //     })
-  //   );
-  // };
 
   return (
     <div className="w-full space-y-6">
@@ -247,8 +200,8 @@ export const AgentForm = ({
             <Button type="submit" disabled={isPending}>
               {isPending ? (
                 <>
-                  <Loader className="mr-2 h-4 w-4 animate-spin" />
-                  {isEditing ? "Updating..." : "Creating..."}
+                  <Loader className="h-4 w-4 animate-spin" />
+                  {isEditing ? "Updating" : "Creating"}
                 </>
               ) : isEditing ? (
                 "Update"

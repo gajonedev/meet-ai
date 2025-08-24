@@ -11,8 +11,8 @@ import { MoreVerticalIcon, Pencil, Trash2 } from "lucide-react";
 interface Props {
   agentId: string;
   agentName: string;
-  onEdit: (id: string) => void;
-  onRemove: (id: string) => void;
+  onEdit: () => void;
+  onRemove: () => void;
 }
 
 const AgentIdViewHeader = ({ agentId, agentName, onEdit, onRemove }: Props) => {
@@ -37,14 +37,14 @@ const AgentIdViewHeader = ({ agentId, agentName, onEdit, onRemove }: Props) => {
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-35 mr-10">
           <DropdownMenuItem
-            onClick={() => onEdit(agentId)}
+            onClick={() => onEdit()}
             className="justify-between px-3"
           >
             Edit
             <Pencil className="ml-2 inline h-4 w-4 text-foreground" />
           </DropdownMenuItem>
           <DropdownMenuItem
-            onClick={() => onRemove(agentId)}
+            onClick={() => onRemove()}
             className="justify-between px-3"
             variant="destructive"
           >

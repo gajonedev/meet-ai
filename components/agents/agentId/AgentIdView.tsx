@@ -1,35 +1,83 @@
 "use client";
 
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useState } from "react";
+import {
+  useMutation,
+  useQueryClient,
+  useSuspenseQuery,
+} from "@tanstack/react-query";
 import { LuVideo } from "react-icons/lu";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import { Loader } from "lucide-react";
 
 import { useTRPC } from "@/trpc/client";
 import { ErrorUI } from "@/components/ErrorUI";
 import { LoadingUI } from "@/components/LoadingUI";
+import { useConfirm } from "@/hooks/useConfirm";
 import AgentIdViewHeader from "./AgentIdViewHeader";
 import { GeneratedAvatar } from "@/components/dashboard/GeneratedAvatar";
 import { Badge } from "@/components/ui/badge";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { EditAgentDialog } from "../EditAgentDialog";
+import { set } from "zod";
 
 interface Props {
   agentId: string;
 }
 
 export const AgentIdView = ({ agentId }: Props) => {
+  const router = useRouter();
   const trpc = useTRPC();
+  const queryClient = useQueryClient();
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+  const [openEditDialog, setOpenEditDialog] = useState(false);
+
+  // Agent details query
   const { data } = useSuspenseQuery(
     trpc.agents.getOne.queryOptions({ id: agentId })
   );
 
+  // Remove agent mutation
+  const removeAgent = useMutation(
+    trpc.agents.remove.mutationOptions({
+      onSuccess: async ({ name }) => {
+        toast.success(`Agent ${name} removed successfully`);
+        // Invalidate agent details
+        await queryClient.invalidateQueries(
+          trpc.agents.getMany.queryOptions({})
+        );
+        // TODO: Invalidate free tier usage
+        setOpenDeleteDialog(false);
+        router.push("/agents");
+      },
+      onError: (error) => {
+        setOpenDeleteDialog(false);
+        console.error("Error removing agent:", error);
+        toast.error("Failed to remove agent");
+      },
+    })
+  );
+
   return (
     <div className="flex-1 py-4 px-4 md:px-8 flex flex-col gap-y-4">
+      {/* Header */}
       <AgentIdViewHeader
         agentId={agentId}
         agentName={data.name}
-        onEdit={() => {}}
-        onRemove={() => {}}
+        onEdit={() => setOpenEditDialog(true)}
+        onRemove={() => setOpenDeleteDialog(true)}
       />
-      {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
 
+      {/* Agent Details */}
       <div className="bg-card rounded-xl border">
         <div className="px-4 py-5 gap-y-5 flex flex-col col-span-5">
           <div className="flex items-center gap-x-3">
@@ -52,12 +100,53 @@ export const AgentIdView = ({ agentId }: Props) => {
 
           <div className="flex flex-col gap-y-2">
             <p className="text-lg font-medium">Instructions</p>
-            <p className="text-sm font-light text-muted-foreground">
+            <p className="text-sm font-normal text-muted-foreground">
               {data.instructions}
             </p>
           </div>
         </div>
       </div>
+
+      {/* Dialog for confirming deletion */}
+      <Dialog open={openDeleteDialog} onOpenChange={setOpenDeleteDialog}>
+        <DialogContent className="p-8 rounded-xl" showCloseButton={false}>
+          <DialogHeader>
+            <DialogTitle className="text-center">Confirm deletion</DialogTitle>
+          </DialogHeader>
+          <p className="text-center text-muted-foreground font-light">
+            The suppression of this agent will remove the agent and his{" "}
+            {data.meetingCount} associated meetings.
+          </p>
+          <DialogFooter className="flex justify-between mt-3">
+            <DialogClose asChild>
+              <Button variant="secondary">Cancel</Button>
+            </DialogClose>
+            <Button
+              variant="destructive"
+              onClick={async () => {
+                await removeAgent.mutateAsync({ id: agentId });
+              }}
+              disabled={removeAgent.isPending}
+            >
+              {removeAgent.isPending ? (
+                <>
+                  <Loader className="h-4 w-4 animate-spin" />
+                  Deleting
+                </>
+              ) : (
+                "Delete"
+              )}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Edit Agent Dialog */}
+      <EditAgentDialog
+        open={openEditDialog}
+        onOpenChange={setOpenEditDialog}
+        initialValues={data}
+      />
     </div>
   );
 };

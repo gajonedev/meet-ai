@@ -6,7 +6,7 @@ import { PlusIcon } from "lucide-react";
 import { FaPlus } from "react-icons/fa6";
 
 import { NewAgentDialog } from "./NewAgentDialog";
-import { useAgentsFilters } from "@/hooks/use-agents-filters";
+import { useAgentsFilters } from "@/hooks/useAgentsFilters";
 import { AgentsSearchFilter } from "./AgentsSearchFilter";
 import { DEFAULT_PAGE } from "@/lib/constants";
 

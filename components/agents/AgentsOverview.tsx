@@ -9,7 +9,7 @@ import { Skeleton } from "../ui/skeleton";
 import { DataTable } from "./DataTable";
 import { columns } from "./Columns";
 import { EmptyUI } from "../EmptyUI";
-import { useAgentsFilters } from "@/hooks/use-agents-filters";
+import { useAgentsFilters } from "@/hooks/useAgentsFilters";
 import { DataPagination } from "./DataPagination";
 import { LoadingUI } from "../LoadingUI";
 
