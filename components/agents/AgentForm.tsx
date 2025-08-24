@@ -11,7 +11,7 @@ import z from "zod";
 
 import { AgentGetOne } from "@/server/types";
 import { useTRPC } from "@/trpc/client";
-import { agentsInsertSchema } from "@/lib/schemas";
+import { agentsInsertSchema } from "@/server/agents/schemas";
 import {
   Form,
   FormControl,
@@ -125,8 +125,146 @@ export const AgentForm = ({
       updateAgent.mutate({ ...values, id: initialValues.id });
     } else {
       createAgent.mutate(values);
+      // await seedDB();
     }
   };
+
+  // const data = [
+  //   {
+  //     name: "Aurora",
+  //     instructions:
+  //       "Guide users through complex decision-making by shedding light on hidden opportunities and clarifying uncertain outcomes with data-backed reasoning.",
+  //   },
+  //   {
+  //     name: "Sentinel",
+  //     instructions:
+  //       "Remain constantly vigilant by scanning digital environments, identifying subtle anomalies, and protecting systems from both internal and external threats.",
+  //   },
+  //   {
+  //     name: "Mirage",
+  //     instructions:
+  //       "Create realistic simulations of future scenarios, allowing users to visualize possible consequences before committing to any specific path.",
+  //   },
+  //   {
+  //     name: "EchoSphere",
+  //     instructions:
+  //       "Engage in context-aware dialogues, recall prior interactions, and respond with tailored suggestions that evolve alongside the user’s goals.",
+  //   },
+  //   {
+  //     name: "Horizon",
+  //     instructions:
+  //       "Analyze global signals and industry trends to provide a panoramic view of what lies ahead, enabling proactive strategies for long-term growth.",
+  //   },
+  //   {
+  //     name: "Pulse",
+  //     instructions:
+  //       "Continuously measure activity, detect fluctuations that deviate from the norm, and notify users about important shifts requiring intervention.",
+  //   },
+  //   {
+  //     name: "Vertex",
+  //     instructions:
+  //       "Streamline workflows by coordinating multiple processes simultaneously, ensuring that all moving parts converge at the right point in time.",
+  //   },
+  //   {
+  //     name: "Spectra",
+  //     instructions:
+  //       "Interpret visual and auditory signals from diverse sources, revealing subtle patterns invisible to the human eye or ear.",
+  //   },
+  //   {
+  //     name: "Flux",
+  //     instructions:
+  //       "Adapt instantly to changes in input by recalibrating models, adjusting predictions, and ensuring accuracy even in unstable conditions.",
+  //   },
+  //   {
+  //     name: "NovaCore",
+  //     instructions:
+  //       "Transform raw, chaotic streams of information into structured knowledge, enabling decision-makers to act with confidence and clarity.",
+  //   },
+  //   {
+  //     name: "Oblivion",
+  //     instructions:
+  //       "Handle vast repositories of archival data, preserving essential details while discarding noise to maintain relevance across generations.",
+  //   },
+  //   {
+  //     name: "Aeon",
+  //     instructions:
+  //       "Evolve continuously through exposure to new tasks, improving performance while maintaining a historical memory of past experiences.",
+  //   },
+  //   {
+  //     name: "Ignis",
+  //     instructions:
+  //       "Fuel creativity by suggesting unconventional ideas, challenging assumptions, and igniting inspiration for innovative breakthroughs.",
+  //   },
+  //   {
+  //     name: "Strata",
+  //     instructions:
+  //       "Layer information across multiple dimensions, providing both a microscopic and macroscopic view for comprehensive understanding.",
+  //   },
+  //   {
+  //     name: "Vortex",
+  //     instructions:
+  //       "Gather scattered data points, pull them into a central core, and generate insights that highlight underlying relationships.",
+  //   },
+  //   {
+  //     name: "Lynx",
+  //     instructions:
+  //       "Track, detect, and categorize objects across visual environments with unmatched speed and accuracy, enhancing situational awareness.",
+  //   },
+  //   {
+  //     name: "Titan",
+  //     instructions:
+  //       "Manage heavy computational loads with resilience, processing vast operations at scale without compromising speed or precision.",
+  //   },
+  //   {
+  //     name: "Seraph",
+  //     instructions:
+  //       "Assist users with empathy, providing emotionally intelligent responses that balance logic with understanding.",
+  //   },
+  //   {
+  //     name: "Nebula",
+  //     instructions:
+  //       "Map chaotic systems into coherent patterns, turning abstract complexity into structured clarity for better navigation.",
+  //   },
+  //   {
+  //     name: "Omen",
+  //     instructions:
+  //       "Forecast potential risks before they materialize, delivering warnings and recommendations to safeguard critical operations.",
+  //   },
+  //   {
+  //     name: "Zenith",
+  //     instructions:
+  //       "Strive for the highest possible efficiency by identifying peak performance states and aligning processes to achieve them.",
+  //   },
+  //   {
+  //     name: "Arcane",
+  //     instructions:
+  //       "Unveil hidden connections within layers of obscure information, bringing order to what seems mysterious or incomprehensible.",
+  //   },
+  //   {
+  //     name: "Helix",
+  //     instructions:
+  //       "Integrate knowledge across multiple domains, weaving together threads of science, technology, and strategy into unified solutions.",
+  //   },
+  //   {
+  //     name: "Cinder",
+  //     instructions:
+  //       "Reconstruct incomplete or fragmented data, filling the gaps with intelligent approximations to restore meaningful information.",
+  //   },
+  //   {
+  //     name: "Phantom",
+  //     instructions:
+  //       "Operate silently in the background, executing tasks with precision while remaining virtually invisible to the user’s awareness.",
+  //   },
+  // ];
+  // const seedDB = async () => {
+  //   await Promise.all(
+  //     data.map(async (agent) => {
+  //       await createAgent.mutateAsync({
+  //         ...agent,
+  //       });
+  //     })
+  //   );
+  // };
 
   return (
     <div className="w-full space-y-6">

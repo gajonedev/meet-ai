@@ -8,6 +8,7 @@ interface Props {
 }
 
 export const DataPagination = ({ page, totalPages, onPageChange }: Props) => {
+  console.log({ page, totalPages });
   return (
     <div className="flex items-center justify-between">
       <div className="flex-1 text-sm text-muted-foreground">
@@ -23,7 +24,7 @@ export const DataPagination = ({ page, totalPages, onPageChange }: Props) => {
           Previous
         </Button>
         <Button
-          disabled={page === totalPages}
+          disabled={page === totalPages + 1}
           variant="outline"
           size="sm"
           onClick={() => onPageChange(Math.min(totalPages, page + 1))}

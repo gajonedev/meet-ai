@@ -11,8 +11,49 @@ import {
   MAX_PAGE_SIZE,
   MIN_PAGE_SIZE,
 } from "@/lib/constants";
+import { meetingsInsertSchema, meetingsUpdateSchema } from "./schemas";
 
 export const meetingsRouter = createTRPCRouter({
+  // Create meeting procedure
+  create: protectedProcedure
+    .input(meetingsInsertSchema)
+    .mutation(async ({ input, ctx }) => {
+      const [createdMeeting] = await db
+        .insert(meetings)
+        .values({
+          ...input,
+          userId: ctx.auth.user.id,
+        })
+        .returning();
+
+      // TODO: Create Stream Call, Upsert Stream Users
+
+      return createdMeeting;
+    }),
+
+  // Get one meeting by id procedure
+  getOne: protectedProcedure
+    .input(z.object({ id: z.string() }))
+    .query(async ({ input, ctx }) => {
+      const [existingMeeting] = await db
+        .select({
+          ...getTableColumns(meetings),
+        })
+        .from(meetings)
+        .where(
+          and(eq(meetings.id, input.id), eq(meetings.userId, ctx.auth.user.id))
+        );
+
+      if (!existingMeeting) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Meeting not found",
+        });
+      }
+
+      return existingMeeting;
+    }),
+
   // Get all meetings procedure
   getMany: protectedProcedure
     .input(
@@ -65,26 +106,24 @@ export const meetingsRouter = createTRPCRouter({
       };
     }),
 
-  // Get one meeting by id procedure
-  getOne: protectedProcedure
-    .input(z.object({ id: z.string() }))
-    .query(async ({ input, ctx }) => {
-      const [existingMeeting] = await db
-        .select({
-          ...getTableColumns(meetings),
-        })
-        .from(meetings)
+  update: protectedProcedure
+    .input(meetingsUpdateSchema)
+    .mutation(async ({ input, ctx }) => {
+      const [updatedMeeting] = await db
+        .update(meetings)
+        .set(input)
         .where(
           and(eq(meetings.id, input.id), eq(meetings.userId, ctx.auth.user.id))
-        );
+        )
+        .returning();
 
-      if (!existingMeeting) {
+      if (!updatedMeeting) {
         throw new TRPCError({
           code: "NOT_FOUND",
           message: "Meeting not found",
         });
       }
 
-      return existingMeeting;
+      return updatedMeeting;
     }),
 });

@@ -11,6 +11,7 @@ import {
 import { auth } from "@/lib/auth";
 import { getQueryClient, trpc } from "@/trpc/server";
 import { ErrorBoundary } from "react-error-boundary";
+import { MeetingsListHeader } from "@/components/meetings/MeetingsListHeader";
 
 const Page = async () => {
   const session = await auth.api.getSession({
@@ -24,7 +25,7 @@ const Page = async () => {
 
   return (
     <section className="p-4">
-      <h1 className="text-2xl font-bold">Meetings Page</h1>
+      <MeetingsListHeader />
       <HydrationBoundary state={dehydrate(queryClient)}>
         <Suspense fallback={<MeetingsViewLoading />}>
           <ErrorBoundary fallback={<MeetingsViewError />}>

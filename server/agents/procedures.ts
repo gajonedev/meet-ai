@@ -4,7 +4,10 @@ import { TRPCError } from "@trpc/server";
 
 import { db } from "@/db";
 import { agents } from "@/db/schema";
-import { agentsInsertSchema, agentsUpdateSchema } from "@/lib/schemas";
+import {
+  agentsInsertSchema,
+  agentsUpdateSchema,
+} from "@/server/agents/schemas";
 import { createTRPCRouter, protectedProcedure } from "@/trpc/init";
 import {
   DEFAULT_PAGE,

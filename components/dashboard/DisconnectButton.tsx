@@ -76,7 +76,7 @@ const DisconnectButton = () => {
               {disconnecting ? (
                 <>
                   <Loader className="mr-2 h-4 w-4 animate-spin" />
-                  Déconnexion...
+                  Déconnexion
                 </>
               ) : (
                 "Se déconnecter"
