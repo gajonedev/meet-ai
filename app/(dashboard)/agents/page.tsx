@@ -20,13 +20,13 @@ interface Props {
 }
 
 const Page = async ({ searchParams }: Props) => {
-  const filters = await loadSearchParams(searchParams);
-
   const session = await auth.api.getSession({
     headers: await headers(),
   });
-
+  
   if (!session || !session.user) return redirect("/sign-in");
+
+  const filters = await loadSearchParams(searchParams);
 
   const queryClient = getQueryClient();
   
