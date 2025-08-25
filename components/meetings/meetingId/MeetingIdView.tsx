@@ -24,6 +24,10 @@ import { Button } from "@/components/ui/button";
 import { Loader } from "lucide-react";
 import { useState } from "react";
 import { UpdateMeetingDialog } from "./UpdateMeetingDialog";
+import { UpcomingState } from "./UpcomingState";
+import { ActiveState } from "./ActiveState";
+import { CancelledState } from "./CancelledState";
+import { ProcessingState } from "./ProcessingState";
 
 interface Props {
   meetingId: string;
@@ -57,6 +61,12 @@ export const MeetingIdView = ({ meetingId }: Props) => {
     })
   );
 
+  const isActive = data.status === "active";
+  const isUpcoming = data.status === "upcoming";
+  const isCancelled = data.status === "cancelled";
+  const isCompleted = data.status === "completed";
+  const isProcessing = data.status === "processing";
+
   return (
     <>
       <div className="flex-1 md:px-8 flex flex-col gap-y-4">
@@ -66,7 +76,17 @@ export const MeetingIdView = ({ meetingId }: Props) => {
           onEdit={() => setOpenUpdateDialog(true)}
           onRemove={() => setOpenDeleteDialog(true)}
         />
-        <pre>{JSON.stringify(data, null, 2)}</pre>
+        {isCancelled && <CancelledState />}
+        {isCompleted && <div>Completed</div>}
+        {isProcessing && <ProcessingState />}
+        {isActive && <ActiveState meetingId={meetingId} />}
+        {isUpcoming && (
+          <UpcomingState
+            meetingId={meetingId}
+            onCancelMeeting={() => {}}
+            isCancelling={false}
+          />
+        )}
       </div>
 
       {/* Dialog for confirming deletion */}
