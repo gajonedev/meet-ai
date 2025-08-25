@@ -12,16 +12,29 @@ import { auth } from "@/lib/auth";
 import { getQueryClient, trpc } from "@/trpc/server";
 import { ErrorBoundary } from "react-error-boundary";
 import { MeetingsListHeader } from "@/components/meetings/MeetingsListHeader";
+import { SearchParams } from "nuqs/server";
+import { loadSearchParams } from "@/server/agents/params";
+import { se } from "date-fns/locale";
 
-const Page = async () => {
+// Define the props for the page component
+interface Props {
+  searchParams: Promise<SearchParams>;
+}
+
+const Page = async ({ searchParams }: Props) => {
+  // Get the current user session
   const session = await auth.api.getSession({
     headers: await headers(),
   });
 
   if (!session || !session.user) return redirect("/sign-in");
 
+  const filters = await loadSearchParams(searchParams);
+
   const queryClient = getQueryClient();
-  void queryClient.prefetchQuery(trpc.meetings.getMany.queryOptions({}));
+  void queryClient.prefetchQuery(trpc.meetings.getMany.queryOptions({
+    ...filters
+  }));
 
   return (
     <section className="p-4">

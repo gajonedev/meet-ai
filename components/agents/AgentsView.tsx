@@ -9,7 +9,7 @@ import { DataTable } from "../DataTable";
 import { columns } from "./Columns";
 import { EmptyUI } from "../EmptyUI";
 import { useAgentsFilters } from "@/hooks/useAgentsFilters";
-import { DataPagination } from "./DataPagination";
+import { DataPagination } from "../DataPagination";
 import { LoadingUI } from "../LoadingUI";
 
 export const AgentsOverview = () => {

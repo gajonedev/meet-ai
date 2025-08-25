@@ -113,11 +113,11 @@ export const AgentIdView = ({ agentId }: Props) => {
           <DialogHeader>
             <DialogTitle className="text-center">Confirm deletion</DialogTitle>
           </DialogHeader>
-          <p className="text-center text-muted-foreground font-light">
+          <p className="text-center text-muted-foreground">
             The suppression of this agent will remove the agent and his{" "}
             {data.meetingCount} associated meetings.
           </p>
-          <DialogFooter className="flex justify-between mt-3">
+          <DialogFooter className="flex justify-between mt-4">
             <DialogClose asChild>
               <Button variant="secondary">Cancel</Button>
             </DialogClose>

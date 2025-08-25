@@ -29,7 +29,7 @@ export const ResponsiveDialog = ({
   onOpenChange,
   children,
 }: ResponsiveDialogProps) => {
-  const isMobile = useIsMobile(600);
+  const isMobile = useIsMobile(500);
 
   if (isMobile) {
     return (

@@ -83,7 +83,7 @@ function ResponsiveCommandDialog({
   showCloseButton?: boolean;
   shouldFilter?: boolean;
 }) {
-  const isMobile = useIsMobile();
+  const isMobile = useIsMobile(500);
 
   if (isMobile) {
     return (

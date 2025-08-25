@@ -1,19 +1,19 @@
 "use client";
 
 import { Search } from "lucide-react";
-import React, { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import { Input } from "../ui/input";
-import { useAgentsFilters } from "@/hooks/useAgentsFilters";
+import { useMeetingsFilters } from "@/hooks/useMeetingsFilters";
 import { useDebounce } from "@/hooks/useDebounce";
 import { DEBOUNCE_DELAY } from "@/lib/constants";
 
-export const AgentsSearchFilter = () => {
-  const [filters, setFilters] = useAgentsFilters();
+export const MeetingsSearchFilter = () => {
+  const [filters, setFilters] = useMeetingsFilters();
+
   const [inputValue, setInputValue] = useState(filters.search);
   const debouncedSearchValue = useDebounce(inputValue, DEBOUNCE_DELAY);
 
-  // Update the URL query parameter only when the debounced value changes
   useEffect(() => {
     // Only update if the value actually changed to prevent infinite loops
     if (filters.search !== debouncedSearchValue) {
@@ -22,12 +22,12 @@ export const AgentsSearchFilter = () => {
   }, [debouncedSearchValue, filters.search]);
 
   return (
-    <div className="relative flex-1">
+    <div className="relative">
       <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
       <Input
         type="search"
         placeholder="Filter by name"
-        className="pl-9 pr-4 h-9 bg-card border-muted-foreground/20 focus:border-primary font-normal text-sm rounded-md border-none cursor-text w-full md:w-sm"
+        className="pl-9 pr-4 h-9 bg-card focus:border-primary font-normal text-sm rounded-md cursor-text w-full lg:w-sm"
         onChange={(e) => setInputValue(e.target.value)}
         value={inputValue}
       />
