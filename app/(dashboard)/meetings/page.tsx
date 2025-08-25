@@ -13,7 +13,7 @@ import { getQueryClient, trpc } from "@/trpc/server";
 import { ErrorBoundary } from "react-error-boundary";
 import { MeetingsListHeader } from "@/components/meetings/MeetingsListHeader";
 import { SearchParams } from "nuqs/server";
-import { loadSearchParams } from "@/server/agents/params";
+import { loadSearchParams } from "@/server/meetings/params";
 import { se } from "date-fns/locale";
 
 // Define the props for the page component
@@ -32,9 +32,11 @@ const Page = async ({ searchParams }: Props) => {
   const filters = await loadSearchParams(searchParams);
 
   const queryClient = getQueryClient();
-  void queryClient.prefetchQuery(trpc.meetings.getMany.queryOptions({
-    ...filters
-  }));
+  void queryClient.prefetchQuery(
+    trpc.meetings.getMany.queryOptions({
+      ...filters,
+    })
+  );
 
   return (
     <section className="p-4">

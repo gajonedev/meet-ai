@@ -11,7 +11,7 @@ import { AgentIdFilter } from "./AgentIdFilter";
 import { useMeetingsFilters } from "@/hooks/useMeetingsFilters";
 import { Search, XCircleIcon } from "lucide-react";
 import { useDebounce } from "@/hooks/useDebounce";
-import { DEBOUNCE_DELAY } from "@/lib/constants";
+import { DEBOUNCE_DELAY, DEFAULT_PAGE } from "@/lib/constants";
 import { Input } from "../ui/input";
 
 export const MeetingsListHeader = () => {
@@ -26,7 +26,7 @@ export const MeetingsListHeader = () => {
   );
 
   const clearFilter = () => {
-    setFilters({ search: "", status: null, agentId: "", page: 1 });
+    setFilters({ search: "", status: null, agentId: "", page: DEFAULT_PAGE });
     setInputValue("");
   };
 
