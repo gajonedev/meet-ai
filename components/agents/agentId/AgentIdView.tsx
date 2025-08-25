@@ -14,7 +14,6 @@ import { Loader } from "lucide-react";
 import { useTRPC } from "@/trpc/client";
 import { ErrorUI } from "@/components/ErrorUI";
 import { LoadingUI } from "@/components/LoadingUI";
-import { useConfirm } from "@/hooks/useConfirm";
 import AgentIdViewHeader from "./AgentIdViewHeader";
 import { GeneratedAvatar } from "@/components/dashboard/GeneratedAvatar";
 import { Badge } from "@/components/ui/badge";
@@ -28,7 +27,6 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { EditAgentDialog } from "../EditAgentDialog";
-import { set } from "zod";
 
 interface Props {
   agentId: string;

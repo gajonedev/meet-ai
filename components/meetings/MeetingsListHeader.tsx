@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import { FaPlus } from "react-icons/fa6";
 import { NewMeetingDialog } from "./NewMeetingDialog";
-import { MeetingsSearchFilter } from "./MeetingsSearchFilter";
 import { StatusFilter } from "./StatusFilter";
 import { AgentIdFilter } from "./AgentIdFilter";
 import { useMeetingsFilters } from "@/hooks/useMeetingsFilters";

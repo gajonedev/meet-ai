@@ -85,6 +85,7 @@ export const MeetingForm = ({
     trpc.meetings.update.mutationOptions({
       onSuccess: async ({ name, id }) => {
         form.reset();
+        onSuccess?.(id);
         toast.success('Meeting "' + name + '" updated successfully');
 
         // Invalidate the meetings query to refetch the list of meetings
@@ -101,7 +102,6 @@ export const MeetingForm = ({
 
         // TODO: Invalidate free tier usage
 
-        onSuccess?.(id);
       },
       onError: (error) => {
         setError("An error occurred while updating the agent.");
