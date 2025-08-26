@@ -39,7 +39,6 @@ export const AgentForm = ({
   initialValues,
 }: AgentFormProps) => {
   const trpc = useTRPC();
-  const router = useRouter();
   const queryClient = useQueryClient();
   const [error, setError] = useState<string | null>(null);
   const isEditing = !!initialValues;
@@ -124,6 +123,7 @@ export const AgentForm = ({
     if (isEdit) {
       updateAgent.mutate({ ...values, id: initialValues.id });
     } else {
+      setError("");
       createAgent.mutate(values);
       // await seedDB();
     }

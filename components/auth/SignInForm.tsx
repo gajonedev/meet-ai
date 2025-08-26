@@ -82,7 +82,6 @@ const LoginForm = () => {
 
           // Gestion des succès
           onSuccess: (data) => {
-            console.log("Login success:", data);
             router.push(redirectTo);
           },
         }
