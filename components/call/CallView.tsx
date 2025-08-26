@@ -4,12 +4,15 @@ import { useTRPC } from "@/trpc/client";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { ErrorUI } from "../ErrorUI";
 import { CallProvider } from "./CallProvider";
+import { useTheme } from "next-themes";
 
 interface Props {
   meetingId: string;
 }
 
 export const CallView = ({ meetingId }: Props) => {
+  const { theme, setTheme } = useTheme();
+  setTheme("dark");
   const trpc = useTRPC();
   const { data } = useSuspenseQuery(
     trpc.meetings.getOne.queryOptions({ id: meetingId })

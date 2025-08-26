@@ -23,7 +23,7 @@ export const UpcomingState = ({
       />
       <div className="flex flex-col-reverse md:flex-row md:justify-center items-center gap-2 w-full">
         <Button
-          variant="secondary"
+          variant="secondaryDestructive"
           className="w-full md:w-auto"
           onClick={onCancelMeeting}
           disabled={isCancelling}

@@ -10,6 +10,7 @@ import {
 import { useMutation } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { CallUI } from "./CallUI";
+import { LoadingUI } from "../LoadingUI";
 
 interface Props {
   meetingId: string;
@@ -72,7 +73,12 @@ export const CallConnect = ({
   }, [client, meetingId]);
 
   if (!client || !call) {
-    return <div>Loading & ...</div>;
+    return (
+      <LoadingUI
+        title="Loading..."
+        description="Please wait while we load your connexion to the meeting."
+      />
+    );
   }
 
   return (
