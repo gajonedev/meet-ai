@@ -35,5 +35,5 @@ export const auth = betterAuth({
     },
   },
 
-  trustedOrigins: ["http://10.88.224.168:3000"],
+  trustedOrigins: ["https://equal-teaching-ocelot.ngrok-free.app"],
 });

@@ -11,8 +11,6 @@ interface Props {
 }
 
 export const CallView = ({ meetingId }: Props) => {
-  const { theme, setTheme } = useTheme();
-  setTheme("dark");
   const trpc = useTRPC();
   const { data } = useSuspenseQuery(
     trpc.meetings.getOne.queryOptions({ id: meetingId })

@@ -25,7 +25,7 @@ const UserMenu = () => {
   const { theme, setTheme } = useTheme();
 
   if (isPending) {
-    return <Skeleton className="h-9 w-9 rounded-full cursor-progress" />;
+    return <Skeleton className="h-9 w-9 rounded-full cursor-wait" />;
   }
 
   if (error || !data) {
