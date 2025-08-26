@@ -26,7 +26,7 @@ export function SidebarUserDropdown() {
 
   if (isPending) {
     return (
-      <div className="flex items-center gap-3 px-2 py-1">
+      <div className="flex items-center gap-3 px-2 py-1 cursor-wait">
         <Skeleton className="h-9 w-9 rounded-lg" />
         <div className="flex flex-col gap-1 flex-1">
           <Skeleton className="h-4 w-24 rounded" />
