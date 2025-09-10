@@ -2,6 +2,8 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { Suspense } from "react";
+import { SearchParams } from "nuqs/server";
+import { ErrorBoundary } from "react-error-boundary";
 
 import {
   MeetingsView,
@@ -10,11 +12,8 @@ import {
 } from "@/components/meetings/MeetingsView";
 import { auth } from "@/lib/auth";
 import { getQueryClient, trpc } from "@/trpc/server";
-import { ErrorBoundary } from "react-error-boundary";
 import { MeetingsListHeader } from "@/components/meetings/MeetingsListHeader";
-import { SearchParams } from "nuqs/server";
 import { loadSearchParams } from "@/server/meetings/params";
-import { se } from "date-fns/locale";
 
 // Define the props for the page component
 interface Props {

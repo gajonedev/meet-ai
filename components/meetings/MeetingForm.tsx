@@ -26,6 +26,7 @@ import { meetingsInsertSchema } from "@/server/meetings/schemas";
 import { CommandSelect } from "../CommandSelect";
 import { GeneratedAvatar } from "../dashboard/GeneratedAvatar";
 import { NewAgentDialog } from "../agents/NewAgentDialog";
+import { cn } from "@/lib/utils";
 
 // Props for the meeting form component
 interface MeetingFormProps {
@@ -41,9 +42,9 @@ export const MeetingForm = ({
 }: MeetingFormProps) => {
   const trpc = useTRPC();
   const queryClient = useQueryClient();
-  const [error, setError] = useState<string | null>(null);
   const isEditing = !!initialValues;
 
+  const [error, setError] = useState<string | null>(null);
   const [openNewAgentDialog, setOpenNewAgentDialog] = useState(false);
   const [agentSearch, setAgentSearch] = useState("");
 
@@ -71,8 +72,8 @@ export const MeetingForm = ({
         onSuccess?.(id);
       },
       onError: (error) => {
-        setError("An error occurred while creating the agent.");
-        toast.error("Error creating agent");
+        setError("An error occurred while creating the meeting.");
+        toast.error("Error creating the meeting" + error.message);
         form.reset();
 
         // TODO: Check if error code is "FORBIDDEN", then redirect to "/upgrade"
@@ -85,7 +86,6 @@ export const MeetingForm = ({
     trpc.meetings.update.mutationOptions({
       onSuccess: async ({ name, id }) => {
         form.reset();
-        onSuccess?.(id);
         toast.success('Meeting "' + name + '" updated successfully');
 
         // Invalidate the meetings query to refetch the list of meetings
@@ -101,7 +101,7 @@ export const MeetingForm = ({
         }
 
         // TODO: Invalidate free tier usage
-
+        onSuccess?.(id);
       },
       onError: (error) => {
         setError("An error occurred while updating the agent.");
@@ -131,6 +131,7 @@ export const MeetingForm = ({
 
   // Determine if we are creating or updating and call the appropriate mutation
   const onSubmit = async (values: z.infer<typeof meetingsInsertSchema>) => {
+    setError("");
     if (isEdit) {
       updateMeeting.mutate({ ...values, id: initialValues.id });
     } else {
@@ -202,9 +203,14 @@ export const MeetingForm = ({
                       value={field.value}
                       placeholder="Select an agent..."
                       isFetching={isFetching}
+                      className={cn(
+                        form.formState.errors.agentId &&
+                          "!border-destructive"
+                      )}
                     />
                   </FormControl>
-                  <FormDescription className="flex text-center items-center pt-4">
+                  <FormMessage />
+                  <FormDescription className="flex text-center items-center pt-2">
                     Not found what you're looking for?
                     <Button
                       type="button"
@@ -214,7 +220,6 @@ export const MeetingForm = ({
                       Create a new agent
                     </Button>
                   </FormDescription>
-                  <FormMessage />
                 </FormItem>
               )}
             />
