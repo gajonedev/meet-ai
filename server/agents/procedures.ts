@@ -73,7 +73,6 @@ export const agentsRouter = createTRPCRouter({
       })
     )
     .query(async ({ ctx, input }) => {
-      console.log(input);
       const { page, pageSize, search } = input;
 
       const data = await db
